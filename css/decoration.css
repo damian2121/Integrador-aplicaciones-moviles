@@ -1,8 +1,9 @@
-button{
+button, a{
     background: transparent;
     font-size: 19px;
     border: none;
     color: white;
+    text-decoration: none;
 }
 
 button:hover,
