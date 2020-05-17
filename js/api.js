@@ -18,7 +18,6 @@ if (searchParams.has('code') && !localStorage.getItem('token')) {
         },
     };
     $.ajax(settings).done(function (response) {
-        console.log(response);
         localStorage.setItem('token', response.access_token);
     });
 }
