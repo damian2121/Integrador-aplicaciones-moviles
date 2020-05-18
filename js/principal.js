@@ -57,7 +57,4 @@ function tracksForPlayList(token, idPlayList){
   .fail(function(error) {
     alert("No se ha podido cargar sus playlist: " + error.responseText);
   });
-
-  
-
 }
