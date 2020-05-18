@@ -15,7 +15,6 @@ function initMap(){
             position: mylatlng,
             map: mapa,
             title: "aqui estamos"
-
         });
     });
 }
