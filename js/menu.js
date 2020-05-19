@@ -5,4 +5,7 @@ $(function(){
     else
       $(".menu-toggle, .prl-menu, .prl-iframe").addClass("active");
   });
+  $(".prl-menu a").click(function(){
+    $(".menu-toggle").click();
+  })
 });
