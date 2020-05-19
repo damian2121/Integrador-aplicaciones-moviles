@@ -19,7 +19,7 @@ function mePlayList(token) {
         .done(function (response) {
             $.each(response.items, function (i, item) {
                 var urlImage = item.images.length === 0 ? null : item.images[0].url;
-                agregarItem(item.name, urlImage, 'Ingresar a la Playlist', item.external_urls.spotify);
+                agregarItem(item.name, urlImage, 'Ingresar a la Playlist', item.external_urls.spotify, item.id);
             });
         })
         .fail(function (error) {
@@ -59,4 +59,21 @@ function tracksForPlayList(token, idPlayList) {
         .fail(function (error) {
             alert('No se ha podido cargar sus playlist: ' + error.responseText);
         });
+}
+
+function deletePlaylist(playList) {
+    var settings = {
+        url: `https://api.spotify.com/v1/playlists/${playList}/followers`,
+        method: 'DELETE',
+        timeout: 0,
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+    };
+
+    $.ajax(settings).done(function () {
+        $(`#${playList}`).closest('article').hide(500);
+    });
 }
