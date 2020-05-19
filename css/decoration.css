@@ -1,4 +1,5 @@
-button, a{
+button,
+a {
     background: transparent;
     font-size: 19px;
     border: none;
@@ -13,29 +14,64 @@ a:hover {
 }
 
 .prl-articles {
-   display: flex;
-   flex-flow: wrap;
+    display: flex;
+    flex-flow: wrap;
+    justify-content: space-evenly;
 }
 
-.prl-articles article{
-    margin: 10px 10px 10px 10px;
+.prl-articles article {
+    /* margin: 10px 10px 10px 25px; */
+    padding: 3rem;
+    border: 2px solid;
+    margin: 1rem;
+    border-radius: 10px;
 }
 
-.prl-articles img{
+article a {
+    color: #5064c7;
+}
+article a:hover {
+    color: #0b2ac3;
+}
+
+.prl-articles article:hover {
+    box-shadow: 5px 7px 24px 2px rgba(0, 0, 0, 0.75);
+    background-color: rgba(0, 0, 0, 0.3);
+    border-radius: 10px;
+}
+
+.prl-articles img {
     transition: all 400ms;
+    align-self: center;
+    border-radius: 40px;
     border: none;
 }
 
-@media (max-width : 768px) {
-    .prl-articles img{
-        width: 135px;
-        height: 135px;
+@media (max-width: 768px) {
+    .prl-articles img {
+        width: 9em;
     }
 }
 
-@media (min-width : 768px) {
-    .prl-articles img{
-        width: 200px;
-        height: 200px;
+@media (min-width: 768px) {
+    .prl-articles img {
+        width: 9em;
     }
+
+    .prl-articles article {
+        margin: 3rem;
+        padding: 0;
+        border: none;
+    }
+}
+
+.playlist--item {
+    display: flex;
+    justify-content: center;
+    flex-direction: column;
+}
+
+.playlist--content {
+    flex-grow: 1;
+    text-align: center;
 }
