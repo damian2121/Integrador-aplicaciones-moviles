@@ -1,0 +1,42 @@
+<!DOCTYPE html>
+<html lang="en">
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+        <link rel="stylesheet" href="../css/decoration.css" />
+        <script
+            src="https://code.jquery.com/jquery-3.5.0.min.js"
+            integrity="sha256-xNzN2a4ltkB44Mc/Jz3pT4iU1cmeR0FkXs4pru/JxaQ="
+            crossorigin="anonymous"
+        ></script>
+        <link rel="stylesheet" href="../css/all.min.css" />
+        <script src="../js/constantes/constantesApi.js"></script>
+        <script src="../js/busqueda.js"></script>
+    </head>
+    <body>
+        <main>
+            <div class="box">
+                <div class="box-campo">
+                    <label>Nombre:</label>
+                    <input name="name-filter" title="Nombre" placeholder="Nombre" autocomplete="off"/>
+                </div>
+                <div class="box-header-campo">
+                    <label>Tipo:</label>
+                    <div class="box-campo">
+                        <label class="label-radius-check">Cancion</label>
+                        <input type="radio" name="type-filter" value="track" title="Tipo" checked="true"/>
+                    </div>
+                    <div class="box-campo">
+                        <label class="label-radius-check">Artista</label>
+                        <input type="radio" name="type-filter" value="artist" title="Tipo"/>
+                    </div>
+                </div>
+                <div class="box-footer">
+                    <button type="button" name="buscar-filtro" title="Buscar">Buscar</button>
+                </div>
+            </div>
+            <div class="prl-articles"></div>
+        </main>
+        <footer></footer>
+    </body>
+</html>

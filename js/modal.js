@@ -5,12 +5,6 @@ $(function () {
 
     var span = $('#idCancelar, .close');
 
-    // window.onclick = function (event) {
-    //     console.log(object);
-    //     if (event.target == modal) {
-    //         close();
-    //     }
-    // };
     span.click(() => modal.hide(1000));
 
     btn.click(() => modal.show('slow'));

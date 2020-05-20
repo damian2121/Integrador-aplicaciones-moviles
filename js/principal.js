@@ -14,36 +14,12 @@ function mePerfil(token) {
 }
 
 function mePlayList(token) {
+    $('article').remove();
     $.get({ url: 'https://api.spotify.com/v1/me/playlists', headers: { Authorization: 'Bearer ' + token } })
         .done(function (response) {
             $.each(response.items, function (i, item) {
-                if (item.images.length === 0) {
-                    $('.prl-articles').append(
-                        $('<article/>')
-                            .append(
-                                $('<i/>').addClass('fas fa-compact-disc fa-9x').addClass('playlist--content'),
-                                $('<figcaption/>').text(item.name).addClass('playlist--content'),
-                                $('<a/>')
-                                    .text('Ingresar a la Playlist')
-                                    .attr({ target: '_blank', href: item.external_urls.spotify })
-                            )
-                            .attr({ title: 'Playlist ' + item.name + ' en Spotify' })
-                            .addClass('playlist--item')
-                    );
-                } else {
-                    $('.prl-articles').append(
-                        $('<article/>')
-                            .append(
-                                $('<img/>').attr('src', item.images[0].url).addClass('playlist--content'),
-                                $('<figcaption/>').addClass('playlist--content').text(item.name),
-                                $('<a/>')
-                                    .text('Ingresar a la Playlist')
-                                    .attr({ target: '_blank', href: item.external_urls.spotify })
-                            )
-                            .attr({ title: 'Playlist ' + item.name + ' en Spotify' })
-                            .addClass('playlist--item')
-                    );
-                }
+                var urlImage = item.images.length === 0 ? null : item.images[0].url;
+                agregarItem(item.name, urlImage, 'Ingresar a la Playlist', item.external_urls.spotify, item.id);
             });
         })
         .fail(function (error) {
@@ -83,4 +59,21 @@ function tracksForPlayList(token, idPlayList) {
         .fail(function (error) {
             alert('No se ha podido cargar sus playlist: ' + error.responseText);
         });
+}
+
+function deletePlaylist(playList) {
+    var settings = {
+        url: `https://api.spotify.com/v1/playlists/${playList}/followers`,
+        method: 'DELETE',
+        timeout: 0,
+        headers: {
+            Accept: 'application/json',
+            'Content-Type': 'application/json',
+            Authorization: `Bearer ${localStorage.getItem('token')}`,
+        },
+    };
+
+    $.ajax(settings).done(function () {
+        $(`#${playList}`).closest('article').hide(500);
+    });
 }

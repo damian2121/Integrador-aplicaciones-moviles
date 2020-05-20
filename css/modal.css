@@ -94,14 +94,6 @@
     font-size: 20px;
 }
 
-input:focus {
-    outline: none !important;
-    outline-width: 0 !important;
-    box-shadow: none;
-    -moz-box-shadow: none;
-    -webkit-box-shadow: none;
-}
-
 @media (min-width: 768px) {
     #modal {
         height: auto;
