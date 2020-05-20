@@ -26,6 +26,7 @@
     flex-grow: unset;
     border-left: ridge 2px white;
     display: none;
+    padding-left: 10px;
 }
 .prl-header > .header-title {
     text-align: center;
@@ -100,6 +101,7 @@
 .prl-menu > li > a {
     color: white;
     text-decoration: none;
+    padding: 10px 38px 10px 10px;
 }
 .prl-menu > li:hover {
     background: rgb(6, 25, 16);

@@ -3,6 +3,12 @@ const CLIENT_ID = 'YzQ0NGY5YzViOGVkNDI4MzgwZThjMTQ1M2EyODc4Y2I6MzFlMGRkYTYwZTFkN
 const REDIRECT_URI = 'http://127.0.0.1:5500/inicio.html';
 const GRANT_TYPE = 'authorization_code';
 
+$(function () {
+    $('.only-number').on('input', function () {
+        this.value = this.value.replace(/[^0-9]/g, '');
+    });
+});
+
 function agregarItem(name, urlImage, textExternalUrl, externalUrl, id, type, uri) {
     if (urlImage === null) urlImage = $('<i/>').addClass('fas fa-compact-disc fa-9x').addClass('playlist--content');
     else urlImage = $('<img/>').attr('src', urlImage).addClass('playlist--content');
@@ -54,4 +60,12 @@ function buildButton(id, name, uri, type) {
     // .text('Eliminar')
     // .addClass('button--delete');
     return button;
+}
+
+function validarBusqueda() {
+    if ($('[name=name-filter]').val().length == 0) {
+        alert('Debe completar el campo Nombre');
+        return false;
+    }
+    return true;
 }
