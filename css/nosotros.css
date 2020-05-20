@@ -1,7 +1,7 @@
 html,
 body {
-    width: 100%;
-    height: 100%;
+    width: 98%;
+    height: 98%;
 }
 
 h2 {
@@ -18,26 +18,45 @@ h1 {
     position: relative;
 }
 
-#map {
-    width: 100px;
-    height: 100px;
-    display: -webkit-inline-box;
-    width: 750px;
-    height: 350px;
+@media (max-width: 768px) {
+    #map {
+        display: -webkit-inline-box;
+        width: 330px;
+        height: 330px;
+    }
 }
 
-body {
-    background-color: rgb(0, 0, 43);
+@media (min-width: 768px) {
+    #map {
+        display: -webkit-inline-box;
+        width: 750px;
+        height: 350px;
+    }
 }
 
 p {
     font-family: 'Lucida Sans', 'Lucida Sans Regular', 'Lucida Grande', 'Lucida Sans Unicode', Geneva, Verdana,
         sans-serif;
+    position: relative;
 }
 
 .contenido {
-    color: whitesmoke;
-    flex-flow: row;
+    color: black;
+    flex-direction: column;
     text-align: center;
-    margin-top: 150px;
+    margin: 0;
+    border: none;
+    position: relative;
+    display: flow-root;
+    height: 100%;
+    width: 100%;
+}
+
+.contenido::before {
+    content: '';
+    display: flex;
+    position: absolute;
+    width: 100%;
+    height: 100%;
+    opacity: 0.5;
 }
