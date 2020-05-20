@@ -64,7 +64,7 @@
 
 .form--button {
     display: flex;
-    position: absolute;
+    position: relative;
     flex-direction: column;
     bottom: 0px;
     left: 10%;

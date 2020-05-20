@@ -1,6 +1,6 @@
 let searchParams = new URLSearchParams(window.location.search);
 
-if (searchParams.has('code') && !localStorage.getItem('token')) {
+if (searchParams.has('code')) {
     var settings = {
         url: URL_SPOTIFY,
         method: 'POST',
@@ -44,7 +44,6 @@ function crearPlaylist(data) {
     const { id } = JSON.parse(localStorage.getItem('user'));
     const token = localStorage.getItem('token');
 
-    console.log(data);
     var settings = {
         url: `https://api.spotify.com/v1/users/${id}/playlists`,
         method: 'POST',
