@@ -17,7 +17,6 @@ $(function () {
                 //         );
                 //     });
                 // }
-                console.log(item);
                 $('.prl-articles').append(
                     $('<li/>')
                         .append(
