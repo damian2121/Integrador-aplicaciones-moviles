@@ -1,22 +1,27 @@
 $(function () {
     // const canciones = JSON.parse(localStorage.getItem('canciones'));
+
+    if (localStorage.getItem('route') === 'playlist') {
+        meTrackPlaylist();
+    } else {
+        tracksAdd();
+    }
+});
+
+$(window).bind('storage', function () {
+    if (localStorage.getItem('route') === 'playlist') {
+        meTrackPlaylist();
+    } else {
+        tracksAdd();
+    }
+});
+function meTrackPlaylist() {
     $.get({
         url: 'https://api.spotify.com/v1/playlists/' + localStorage.getItem('myPlaylistId') + '/tracks',
         headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
     })
         .done(function (response) {
             $.each(response.items, function (i, item) {
-                // var nameArtist = ' - ',
-                // urlNameArtist = $('<li/>');
-                // if (item.artists.length > 0) {
-                //     $.each(item.artists, function (i, artist) {
-                //         nameArtist += i == 0 ? artist.name : ', ' + artist.name;
-                //         urlNameArtist.append(
-                //             $('<span/>').text(i == 0 ? ', ' : ''),
-                //             $('<a/>').text(artist.name).attr({ target: '_blank', href: artist.external_urls })
-                //         );
-                //     });
-                // }
                 $('.prl-articles').append(
                     $('<li/>')
                         .append(
@@ -39,7 +44,31 @@ $(function () {
         .fail(function (error) {
             alert('No se ha podido cargar sus playlist: ' + error.responseText);
         });
-});
+}
+
+function tracksAdd() {
+    const items = JSON.parse(localStorage.getItem('busqueda'));
+    var modal = $('#myModal');
+
+    $.each(items, function (i, item) {
+        $('.prl-articles').append(
+            $('<li/>')
+                .append(
+                    $('<button/>')
+                        .text(item.name)
+                        .attr({ target: '_blank', href: item.external_urls })
+                        .click(() => $('#reproductor').attr('src', item.preview_url)[0].play()),
+                    $('<i/>')
+                        .addClass('fas fa-plus-square')
+                        .click(function () {
+                            buildModalAdd(item.name, item.uri);
+                            modal.show('slow');
+                        })
+                )
+                .attr({ title: 'Pista ' + item.name + ' en Spotify' })
+        );
+    });
+}
 
 function borrarCancion(uri_Spotify) {
     var settings = {
