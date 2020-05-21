@@ -9,24 +9,6 @@ $(function () {
 
     btn.click(() => modal.show('slow'));
 
-    $.get({
-        url: 'https://api.spotify.com/v1/me/playlists',
-        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
-    })
-        .done(function ({ items }) {
-            $.each(items, function (i, item) {
-                $('#playlist').append(
-                    $('<option>', {
-                        value: item.id,
-                        text: item.name,
-                    })
-                );
-            });
-        })
-        .fail(function (error) {
-            alert('No se ha podido cargar sus playlist: ' + error.responseText);
-        });
-
     $('#agregar').click(function () {
         let form = $('#modal');
         const uri = $('.modal-content').children('h3').attr('id');

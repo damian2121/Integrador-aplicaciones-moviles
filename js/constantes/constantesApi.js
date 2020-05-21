@@ -122,7 +122,7 @@ function buildModalAdd(name, uri) {
         $('<form id="modal"/>').append(
             $('<div/>')
                 .append(
-                    $('<label/>').text('Correo origen:').attr('for', 'playlist'),
+                    $('<label/>').text('Seleccionar Playlist:').attr('for', 'playlist'),
                     $('<select/>').attr({ name: 'playlist', id: 'playlist' })
                 )
                 .addClass('form--campo'),
@@ -138,6 +138,7 @@ function buildModalAdd(name, uri) {
                 .addClass('form--button')
         )
     );
+    mePlaylist();
 }
 
 function enviarEmail(datosEnviar) {
@@ -167,4 +168,24 @@ function valEmail(email) {
     if (!emailReg.test(email)) {
         return true;
     }
+}
+
+function mePlaylist() {
+    $.get({
+        url: 'https://api.spotify.com/v1/me/playlists',
+        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+    })
+        .done(function ({ items }) {
+            $.each(items, function (i, item) {
+                $('#playlist').append(
+                    $('<option>', {
+                        value: item.id,
+                        text: item.name,
+                    })
+                );
+            });
+        })
+        .fail(function (error) {
+            alert('No se ha podido cargar sus playlist: ' + error.responseText);
+        });
 }
