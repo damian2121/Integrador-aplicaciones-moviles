@@ -12,7 +12,7 @@ $(function () {
 function agregarItem(name, urlImage, textExternalUrl, externalUrl, id, type, uri) {
     if (urlImage === null) urlImage = $('<i/>').addClass('fas fa-compact-disc fa-9x').addClass('playlist--content');
     else urlImage = $('<img/>').attr('src', urlImage).addClass('playlist--content');
-    const button = buildButton(id, name, uri, type);
+    const button = buildButton(id, name, uri, type, urlImage, externalUrl);
 
     $('.prl-articles').append(
         $('<article/>')
@@ -29,18 +29,29 @@ function agregarItem(name, urlImage, textExternalUrl, externalUrl, id, type, uri
         // })
     );
 }
-
-function buildButton(id, name, uri, type) {
+function buildButton(id, name, uri, type, urlImage, externalUrl) {
+    const datosEnviar = { name, externalUrl };
     let button;
+    var modal = $('#myModal');
     if (type === 'add')
-        button = $(`<button id=${id} class='myBtn' />`)
-            .click((el) => {
-                var modal = $('#myModal');
-                $('.modal-content').children('h3').text(`Agregar  ${name} a una Playlist`).attr('id', uri);
-                modal.show('slow');
-            })
-            .text('Agregar')
-            .addClass('button--delete');
+        button = $('<div/>')
+            .append(
+                $(`<i id=${id} class='fas fa-plus-square fa-2x myBtn' />`).click((el) => {
+                    // $('.modal-content').children('h3').text(`Agregar  ${name} a una Playlist`).attr('id', uri);
+                    buildModalAdd(name, uri);
+                    modal.show('slow');
+                }),
+                // .text('Agregar')
+                // .addClass('button--delete'),
+                $(`<i id=${id} />`)
+                    .addClass('fas fa-share-alt-square fa-2x')
+                    .click(() => {
+                        localStorage.setItem('compartir', JSON.stringify(datosEnviar));
+                        buildModalCompartir(name, datosEnviar);
+                        modal.show('slow');
+                    })
+            )
+            .css({ display: 'flex', 'margin-top': '1rem', 'justify-content': 'space-evenly' });
     else
         button = $('<div/>')
             .append(
@@ -68,4 +79,92 @@ function validarBusqueda() {
         return false;
     }
     return true;
+}
+
+function buildModalCompartir(name, datosEnviar) {
+    $('#modal').remove();
+    $('#contentmodal > h3').text(`Compartir : ${name}`),
+        $('#contentmodal').append(
+            $('<form id="modal"/>').append(
+                $('<div/>').append(
+                    $('<label/>').text('Correo origen:').attr('for', 'origen'),
+                    $('<input/>').attr({ name: 'origen', type: 'text', id: 'origen' })
+                ),
+                $('<div/>').append(
+                    $('<label/>').text('Correo destino:').attr('for', 'destino'),
+                    $('<input/>').attr({ name: 'destino', type: 'text', id: 'destino' })
+                ),
+                $('<div/>').append(
+                    $('<label/>').text('Mensaje').attr('for', 'mensaje'),
+                    $('<textarea/>').attr({ name: 'mensaje', id: 'mensaje' })
+                ),
+                $('<div/>')
+                    .append(
+                        $('<button/>')
+                            .attr('id', 'enviar')
+                            .text('Enviar')
+                            .addClass('form--button-form')
+                            .click(function (e) {
+                                enviarEmail(datosEnviar);
+                                e.preventDefault();
+                            }),
+                        $('<button/>').attr('id', 'idCancelar').text('Cancelar').addClass('form--button-form')
+                    )
+                    .addClass('form--button')
+            )
+        );
+}
+
+function buildModalAdd(name, uri) {
+    $('#modal').remove();
+    $('.modal-content').children('h3').text(`Agregar  ${name} a una Playlist`).attr('id', uri);
+    $('#contentmodal').append(
+        $('<form id="modal"/>').append(
+            $('<div/>')
+                .append(
+                    $('<label/>').text('Correo origen:').attr('for', 'playlist'),
+                    $('<select/>').attr({ name: 'playlist', id: 'playlist' })
+                )
+                .addClass('form--campo'),
+            $('<div/>')
+                .append(
+                    $('<button/>').attr('id', 'enviar').text('Agregar').addClass('form--button-form'),
+                    // .click(function (e) {
+                    //     enviarEmail(datosEnviar);
+                    //     e.preventDefault();
+                    // }),
+                    $('<button/>').attr('id', 'idCancelar').text('Cancelar').addClass('form--button-form')
+                )
+                .addClass('form--button')
+        )
+    );
+}
+
+function enviarEmail(datosEnviar) {
+    var regex = /[\w-\.]{2,}@([\w-]{2,}\.)*([\w-]{2,}\.)[\w-]{2,4}/;
+    var origen = $('#origen').val();
+    var destino = $('#destino').val();
+
+    if (regex.test($('#origen').val().trim()) && regex.test($('#destino').val().trim())) {
+        var mensaje = $('#mensaje').val();
+        var href =
+            'https://mail.google.com/mail?view=cm&tf=0' +
+            (destino ? '&to=' + destino : '') +
+            // (emailCC ? '&cc=' + emailCC : '') +
+            // (emailSubject ? '&su=' + emailSubject : '') +
+            (mensaje
+                ? `&body=${mensaje} Escucha este Tema : ${datosEnviar.name}  Te dejo la URL : ${datosEnviar.externalUrl}`
+                : '');
+        window.open(href);
+        event.preventDefault();
+    } else {
+        alert(' correo no valido');
+    }
+}
+
+function valEmail(email) {
+    var emailReg = /^([\w-\.]+@([\w-]+\.)+[\w-]{2,4})?$/;
+    if (!emailReg.test(email)) {
+        return true;
+    }
 }
