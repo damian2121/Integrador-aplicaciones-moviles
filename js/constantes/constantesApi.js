@@ -87,6 +87,10 @@ function validarBusqueda() {
 }
 
 function buildModalCompartir(name, datosEnviar) {
+    var modal = $('#myModal');
+    var span = $('.close');
+    span.click(() => modal.hide(1000));
+
     $('#modal').remove();
     $('#contentmodal > h3').text(`Compartir : ${name}`),
         $('#contentmodal').append(
@@ -105,7 +109,7 @@ function buildModalCompartir(name, datosEnviar) {
                 ),
                 $('<div/>')
                     .append(
-                        $('<button/>')
+                        $('<button type="button" />')
                             .attr('id', 'enviar')
                             .text('Enviar')
                             .addClass('form--button-form')
@@ -113,7 +117,13 @@ function buildModalCompartir(name, datosEnviar) {
                                 enviarEmail(datosEnviar);
                                 e.preventDefault();
                             }),
-                        $('<button/>').attr({'type':'button','id':'idCancelar'}).text('Cancelar').addClass('form--button-form')
+                        $('<button/>')
+                            .attr({ type: 'button', id: 'idCancelar' })
+                            .text('Cancelar')
+                            .addClass('form--button-form')
+                            .click(() => {
+                                modal.hide(1000);
+                            })
                     )
                     .addClass('form--button')
             )
@@ -121,6 +131,10 @@ function buildModalCompartir(name, datosEnviar) {
 }
 
 function buildModalAdd(name, uri) {
+    var modal = $('#myModal');
+    var span = $('.close');
+    span.click(() => modal.hide(1000));
+
     $('#modal').remove();
     $('.modal-content').children('h3').text(`Agregar  ${name} a una Playlist`).attr('id', uri);
     $('#contentmodal').append(
@@ -133,16 +147,14 @@ function buildModalAdd(name, uri) {
                 .addClass('form--campo'),
             $('<div/>')
                 .append(
-                    $('<button/>')
+                    $('<button type="button" />')
                         .attr('id', 'enviar')
                         .text('Agregar')
                         .addClass('form--button-form')
                         .click(function (e) {
-                            var modal = $('#myModal');
-
                             var btn = $('.myBtn');
 
-                            var span = $('#idCancelar, .close');
+                            var span = $('.close');
 
                             span.click(() => modal.hide(1000));
 
@@ -154,7 +166,13 @@ function buildModalAdd(name, uri) {
                                 agregarCancion(this.value, uri);
                             });
                         }),
-                    $('<button/>').attr({'type':'button','id':'idCancelar'}).text('Cancelar').addClass('form--button-form')
+                    $('<button/>')
+                        .attr({ type: 'button', id: 'idCancelar' })
+                        .text('Cancelar')
+                        .addClass('form--button-form')
+                        .click(() => {
+                            modal.hide(1000);
+                        })
                 )
                 .addClass('form--button')
         )
@@ -251,7 +269,6 @@ function tracksGeneral(url, type) {
 
 function agregarCancion(playlist, uri) {
     var modal = $('#myModal');
-
 
     $.post({
         url: `https://api.spotify.com/v1/playlists/${playlist}/tracks?uris=${uri}`,

@@ -51,21 +51,22 @@ function tracksAdd() {
     var modal = $('#myModal');
 
     $.each(items, function (i, item) {
+        const auxItem = item.name ? item : item.track;
         $('.prl-articles').append(
             $('<li/>')
                 .append(
                     $('<button/>')
-                        .text(item.name)
-                        .attr({ target: '_blank', href: item.external_urls })
-                        .click(() => $('#reproductor').attr('src', item.preview_url)[0].play()),
+                        .text(auxItem.name)
+                        .attr({ target: '_blank', href: auxItem.external_urls })
+                        .click(() => $('#reproductor').attr('src', auxItem.preview_url)[0].play()),
                     $('<i/>')
                         .addClass('fas fa-plus-square')
                         .click(function () {
-                            buildModalAdd(item.name, item.uri);
+                            buildModalAdd(auxItem.name, auxItem.uri);
                             modal.show('slow');
                         })
                 )
-                .attr({ title: 'Pista ' + item.name + ' en Spotify' })
+                .attr({ title: 'Pista ' + auxItem.name + ' en Spotify' })
         );
     });
 }
