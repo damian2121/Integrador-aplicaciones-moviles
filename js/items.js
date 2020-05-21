@@ -1,5 +1,4 @@
 function agregarItem(name, urlImage, textExternalUrl, externalUrl) {
-    alert(9);
     if (urlImage === null) urlImage = $('<i/>').addClass('fas fa-compact-disc fa-9x').addClass('playlist--content');
     else urlImage = $('<img/>').attr('src', urlImage).addClass('playlist--content');
 

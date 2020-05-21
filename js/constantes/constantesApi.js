@@ -9,21 +9,6 @@ $(function () {
     });
 });
 
-//artist
-// tracks[0].name   // artist
-// 		.previewUrl
-// .album.images
-
-// // playlist
-// items[].track
-// 		.name
-// 		.previewUrl
-//// .album.images
-
-//album
-// items[].name
-// .previewUrl
-//
 function agregarItem(name, urlImage, textExternalUrl, externalUrl, id, type, uri, item) {
     if (urlImage === null) urlImage = $('<i/>').addClass('fas fa-compact-disc fa-9x').addClass('playlist--content');
     else urlImage = $('<img/>').attr('src', urlImage).addClass('playlist--content');
@@ -128,7 +113,7 @@ function buildModalCompartir(name, datosEnviar) {
                                 enviarEmail(datosEnviar);
                                 e.preventDefault();
                             }),
-                        $('<button/>').attr('id', 'idCancelar').text('Cancelar').addClass('form--button-form')
+                        $('<button/>').attr({'type':'button','id':'idCancelar'}).text('Cancelar').addClass('form--button-form')
                     )
                     .addClass('form--button')
             )
@@ -169,7 +154,7 @@ function buildModalAdd(name, uri) {
                                 agregarCancion(this.value, uri);
                             });
                         }),
-                    $('<button/>').attr('id', 'idCancelar').text('Cancelar').addClass('form--button-form')
+                    $('<button/>').attr({'type':'button','id':'idCancelar'}).text('Cancelar').addClass('form--button-form')
                 )
                 .addClass('form--button')
         )
