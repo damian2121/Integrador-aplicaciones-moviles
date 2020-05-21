@@ -91,29 +91,29 @@ function buildModalCompartir(name, datosEnviar) {
     $('#contentmodal > h3').text(`Compartir : ${name}`),
         $('#contentmodal').append(
             $('<form id="modal"/>').append(
-                $('<div/>').append(
+                $('<div/>').addClass('box-campo').append(
                     $('<label/>').text('Correo origen:').attr('for', 'origen'),
                     $('<input/>').attr({ name: 'origen', type: 'text', id: 'origen' })
                 ),
-                $('<div/>').append(
+                $('<div/>').addClass('box-campo').append(
                     $('<label/>').text('Correo destino:').attr('for', 'destino'),
                     $('<input/>').attr({ name: 'destino', type: 'text', id: 'destino' })
                 ),
-                $('<div/>').append(
-                    $('<label/>').text('Mensaje').attr('for', 'mensaje'),
-                    $('<textarea/>').attr({ name: 'mensaje', id: 'mensaje' })
+                $('<div/>').addClass('box-campo').append(
+                    $('<label/>').text('Mensaje:').attr('for', 'mensaje'),
+                    $('<textarea/>').attr({ name: 'mensaje', id: 'mensaje', rows : "4" })
                 ),
                 $('<div/>')
                     .append(
                         $('<button/>')
-                            .attr('id', 'enviar')
+                            .attr('id','enviar')
                             .text('Enviar')
-                            .addClass('form--button-form')
+                            .addClass('button-green')
                             .click(function (e) {
                                 enviarEmail(datosEnviar);
                                 e.preventDefault();
                             }),
-                        $('<button/>').attr({'type':'button','id':'idCancelar'}).text('Cancelar').addClass('form--button-form')
+                        $('<button/>').attr({'type':'button','id':'idCancelar'}).text('Cancelar').addClass('button-red')
                     )
                     .addClass('form--button')
             )
@@ -130,13 +130,13 @@ function buildModalAdd(name, uri) {
                     $('<label/>').text('Seleccionar Playlist:').attr('for', 'playlist'),
                     $('<select/>').attr({ name: 'playlist', id: 'playlist' })
                 )
-                .addClass('form--campo'),
-            $('<div/>')
+                .addClass('box-campo'),
+            $('<div/>').addClass('box-campo')
                 .append(
                     $('<button/>')
                         .attr('id', 'enviar')
                         .text('Agregar')
-                        .addClass('form--button-form')
+                        .addClass('button-green')
                         .click(function (e) {
                             var modal = $('#myModal');
 
@@ -154,7 +154,7 @@ function buildModalAdd(name, uri) {
                                 agregarCancion(this.value, uri);
                             });
                         }),
-                    $('<button/>').attr({'type':'button','id':'idCancelar'}).text('Cancelar').addClass('form--button-form')
+                    $('<button/>').attr({'type':'button','id':'idCancelar'}).text('Cancelar').addClass('button-red')
                 )
                 .addClass('form--button')
         )

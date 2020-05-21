@@ -24,15 +24,18 @@ input[type="text"], select {
     color: rgb(59, 56, 56);
     background-color: #fff;
     border: 1px solid #ccc;
-    border-radius: 2px;   
 }
 select {
     padding-top: 6px;
     height: 34px;
+    padding-right: 19px;
+}
+input[type="text"], select, textarea {
+    border-radius: 2px;   
 }
 
 @media (max-width: 768px) {
-    input[type="text"], select {
+    input[type="text"], select, textarea {
         width: 100%;
         margin-top: 8px;
         padding-left: 5px;
@@ -40,9 +43,10 @@ select {
 }
 
 @media (min-width: 768px) {
-    input[type="text"], select {
-        width: 200px;
+    input[type="text"], select, textarea {
+        width: 251px;
         padding-left: 5px;
+        padding-right: 19px;
     }
     header {
         width: 100%;
@@ -155,8 +159,7 @@ article a:hover {
     }
 }
 
-.box {
-    background-color: white;
+.box, .box-default {
     border: 0px solid;
     max-width: 80%;
     display: flex;
@@ -164,15 +167,22 @@ article a:hover {
     border-radius: 5px;
 }
 
+.box {
+    background-color: white;
+}
+.box-default{
+    background-color: none;
+}
+
 
 @media (max-width: 768px) {
-    .box {
+    .box, .box-default {
         max-width: 100%;
     }
 }
 
 @media (min-width: 768px) { 
-    .box {
+    .box, .box-default {
         max-width: 80%;
         width: 100%;
         text-align: left;
@@ -193,13 +203,24 @@ article a:hover {
 .box-footer {
     border-top: 1px solid #f4f4f4;
 }
-.box-footer > button {
+.button-green, .button-red {
     color: white;
     background-color: #00a65a;
     padding: 8px 16px 8px 16px;
     margin: 8px 9px 8px 8px;
     float: right;
     border-radius: 3px;
+}
+.button-green {
+    background-color: #00a65a;
+}
+.button-red {
+    background-color: #a60008;
+}
+
+.box-footer-campo {
+    float: right;
+    margin: 6px 9px 8px 8px;
 }
 
 .box-campo {
@@ -216,4 +237,13 @@ article a:hover {
 }
 .label-radius-check {
     vertical-align: super;
+}
+
+.show-all {
+    display: none;
+    cursor: pointer;
+    color: #5064d0;
+}
+.show-all:hover {
+    color: blue;
 }

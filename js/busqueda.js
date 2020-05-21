@@ -1,26 +1,43 @@
 $(function () {
     var token = localStorage.getItem('token');
+    showHistory();
+    $('[name=history]').change(function(){
+        showQuery();
+    });
     $('[name=buscar-filtro]').click(function () {
-        var name = $('[name=name-filter]').val(),
-            type = $('[name=type-filter]').val(),
-            country = $('[name=country-filter]').val(),
-            limit = $('[name=limit-filter]').prop('checked');
-        filter(token, name, type, country, limit);
+        searchFilter(token,true, true);
+    });
+    $('.show-all').click(function () {
+        searchFilter(token,false, false);
     });
 });
 
-function filter(token, name, type, country, limit) {
+function searchFilter(token, isAdd, limit){
+    var name = $('[name=name-filter]').val(),
+        type = $('[name=type-filter]').val(),
+        country = $('[name=country-filter]').val();
+
+    if(limit && $('[name=limit-filter]').prop('checked')) {
+        limit = 10
+        $('.show-all').show();
+    }
+    else{
+        $('.show-all').hide();
+        limit = 0
+    }
+    filter(token, name, type, country, limit, isAdd);
+}
+
+function filter(token, name, type, country, limit, isAdd) {
     if (validarBusqueda()) {
         $('article').remove();
-        var contentType = '&type=' + type,
-            contentLimit = limit ? '&limit=10' : '',
+        var contentLimit = limit > 0 ? '&limit=10' : '',
             contentPais = country === '-' ? '' : '&market=' + country;
         $.get({
-            url: 'https://api.spotify.com/v1/search?q=' + name + contentType + contentPais + contentLimit,
-            headers: { Authorization: 'Bearer ' + token },
+            url: `https://api.spotify.com/v1/search?q=${name}&type=${type}${contentPais}${contentLimit}`,
+            headers: { Authorization: 'Bearer ' + token }, 
         })
             .done(function (response) {
-                console.log(response);
                 if (type === 'track') {
                     $.each(response.tracks.items, function (i, item) {
                         var urlImage = item.album.images.length === 0 ? null : item.album.images[0].url;
@@ -52,9 +69,64 @@ function filter(token, name, type, country, limit) {
                         );
                     });
                 }
+
+                if(isAdd){
+                    addQuery(name, type, country, limit);
+                }
             })
             .fail(function (error) {
                 alert('No se ha podido cargar sus playlist: ' + error.responseText);
             });
     }
 }
+
+function showHistory(){
+    var listLastQuery = localStorage.getItem('query');
+    if(listLastQuery == null){
+        $('.box-footer-campo').hide();
+    }
+    else{
+        listLastQuery = JSON.parse(listLastQuery);
+        $('[name=history]').find('option').remove();
+        $.each(listLastQuery, function(i, query){
+            $('[name=history]').append(
+                $('<option />').val(JSON.stringify(query)).text(queryDateHours(query.date))
+            );
+        })
+        $('.box-footer-campo').show();
+    }
+}
+
+function addQuery(name, type, country, limit){
+    var lastQuery ={   
+            nameQuery: name, 
+            typeQuery: type, 
+            countryQuery: country, 
+            limitQuery: limit,
+            date: new Date()
+    };
+    var listQuerys = [], listLastQuery = localStorage.getItem('query');
+    if(listLastQuery != null){
+        listQuerys = JSON.parse(listLastQuery);
+        if(listQuerys.length == 5){
+            listQuerys.shift();
+        }
+    }
+    listQuerys.push(lastQuery);
+    localStorage.setItem('query', JSON.stringify(listQuerys));
+    showHistory();
+}
+
+function showQuery(){
+    var selectQuery = JSON.parse($('[name=history]').val());
+    $('[name=name-filter]').val(selectQuery.nameQuery);
+    $('[name=type-filter]').val(selectQuery.typeQuery);
+    $('[name=country-filter]').val(selectQuery.countryQuery);
+    $('[name=limit-filter]').prop('checked',selectQuery.limitQuery);
+}
+
+function queryDateHours(date){
+    var date = new Date(date);
+    return 'Busqueda : ' + date.getDate()+'/'+ (date.getMonth() +1)+'/'+date.getFullYear() + ' ' + date.getHours()+':'+date.getMinutes()+':'+date.getSeconds();
+}
+
