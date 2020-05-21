@@ -14,7 +14,6 @@ $(function () {
         const uri = $('.modal-content').children('h3').attr('id');
 
         form.find('select').each(function () {
-            console.log(this.value);
             agregarCancion(this.value, uri);
         });
         modal.hide(1000);
@@ -34,6 +33,6 @@ function agregarCancion(playlist, uri) {
     };
 
     $.ajax(settings).done(function (response) {
-        console.log(response);
+        alert('cancion agregada');
     });
 }

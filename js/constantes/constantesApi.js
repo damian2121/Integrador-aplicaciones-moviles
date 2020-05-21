@@ -9,10 +9,25 @@ $(function () {
     });
 });
 
-function agregarItem(name, urlImage, textExternalUrl, externalUrl, id, type, uri) {
+//artist
+// tracks[0].name   // artist
+// 		.previewUrl
+// .album.images
+
+// // playlist
+// items[].track
+// 		.name
+// 		.previewUrl
+//// .album.images
+
+//album
+// items[].name
+// .previewUrl
+//
+function agregarItem(name, urlImage, textExternalUrl, externalUrl, id, type, uri, item) {
     if (urlImage === null) urlImage = $('<i/>').addClass('fas fa-compact-disc fa-9x').addClass('playlist--content');
     else urlImage = $('<img/>').attr('src', urlImage).addClass('playlist--content');
-    const button = buildButton(id, name, uri, type, urlImage, externalUrl);
+    const button = buildButton(id, name, uri, type, urlImage, externalUrl, item);
 
     $('.prl-articles').append(
         $('<article/>')
@@ -24,41 +39,46 @@ function agregarItem(name, urlImage, textExternalUrl, externalUrl, id, type, uri
                 button
             )
             .addClass('playlist--item')
-        // .click(function () {
-        //     buildClickArticle(type, id);
-        // })
     );
 }
-function buildButton(id, name, uri, type, urlImage, externalUrl) {
+function buildButton(id, name, uri, type, urlImage, externalUrl, item) {
     const datosEnviar = { name, externalUrl };
     let button;
     var modal = $('#myModal');
-    if (type === 'add')
+    const iconoCompartir = $(`<i id=${id} />`)
+        .addClass('fas fa-share-alt-square fa-2x')
+        .click(() => {
+            buildModalCompartir(name, datosEnviar);
+            modal.show('slow');
+        });
+    if (type === 'add') {
         button = $('<div/>')
             .append(
                 $(`<i id=${id} class='fas fa-plus-square fa-2x myBtn' />`).click((el) => {
-                    // $('.modal-content').children('h3').text(`Agregar  ${name} a una Playlist`).attr('id', uri);
                     buildModalAdd(name, uri);
                     modal.show('slow');
                 }),
-                // .text('Agregar')
-                // .addClass('button--delete'),
-                $(`<i id=${id} />`)
-                    .addClass('fas fa-share-alt-square fa-2x')
-                    .click(() => {
-                        localStorage.setItem('compartir', JSON.stringify(datosEnviar));
-                        buildModalCompartir(name, datosEnviar);
-                        modal.show('slow');
-                    })
+                iconoCompartir
             )
             .css({ display: 'flex', 'margin-top': '1rem', 'justify-content': 'space-evenly' });
-    else
+    } else if (type === 'search') {
+        button = $('<div/>')
+            .append(
+                $(`<i id=${id} class='fas fa-eye fa-2x myBtn' />`).click((el) => {
+                    searchGeneral(item);
+                    localStorage.setItem('route', 'search');
+                }),
+                iconoCompartir
+            )
+            .css({ display: 'flex', 'margin-top': '1rem', 'justify-content': 'space-evenly' });
+    } else {
         button = $('<div/>')
             .append(
                 $(`<i id=${id} />`)
                     .addClass('fas fa-outdent fa-2x')
                     .click((el) => {
                         localStorage.setItem('myPlaylistId', id);
+                        localStorage.setItem('route', 'playlist');
                         $(location).attr('href', 'canciones.html');
                     }),
                 $(`<i id=${id} />`)
@@ -68,8 +88,8 @@ function buildButton(id, name, uri, type, urlImage, externalUrl) {
                     })
             )
             .css({ display: 'flex', 'margin-top': '1rem', 'justify-content': 'space-evenly' });
-    // .text('Eliminar')
-    // .addClass('button--delete');
+    }
+
     return button;
 }
 
@@ -128,11 +148,27 @@ function buildModalAdd(name, uri) {
                 .addClass('form--campo'),
             $('<div/>')
                 .append(
-                    $('<button/>').attr('id', 'enviar').text('Agregar').addClass('form--button-form'),
-                    // .click(function (e) {
-                    //     enviarEmail(datosEnviar);
-                    //     e.preventDefault();
-                    // }),
+                    $('<button/>')
+                        .attr('id', 'enviar')
+                        .text('Agregar')
+                        .addClass('form--button-form')
+                        .click(function (e) {
+                            var modal = $('#myModal');
+
+                            var btn = $('.myBtn');
+
+                            var span = $('#idCancelar, .close');
+
+                            span.click(() => modal.hide(1000));
+
+                            btn.click(() => modal.show('slow'));
+                            let form = $('#modal');
+                            const uri = $('.modal-content').children('h3').attr('id');
+
+                            form.find('select').each(function () {
+                                agregarCancion(this.value, uri);
+                            });
+                        }),
                     $('<button/>').attr('id', 'idCancelar').text('Cancelar').addClass('form--button-form')
                 )
                 .addClass('form--button')
@@ -184,6 +220,62 @@ function mePlaylist() {
                     })
                 );
             });
+        })
+        .fail(function (error) {
+            alert('No se ha podido cargar sus playlist: ' + error.responseText);
+        });
+}
+
+function searchGeneral(item) {
+    switch (item.type) {
+        case 'artist':
+            tracksGeneral(`https://api.spotify.com/v1/artists/${item.id}/top-tracks?country=from_token`, item.type);
+            break;
+        case 'playlist':
+            tracksGeneral(`https://api.spotify.com/v1/playlists/${item.id}/tracks`, item.type);
+            break;
+        case 'album':
+            // item.images[0]
+            localStorage.setItem('album-image', item.images[0]);
+            tracksGeneral(`https://api.spotify.com/v1/albums/${item.id}/tracks`, item.type);
+            break;
+        default:
+            break;
+    }
+}
+
+function tracksGeneral(url, type) {
+    let res;
+
+    $.get({
+        url: url,
+        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+    })
+        .done(function (response) {
+            res = response;
+            if (type === 'artist') {
+                res = { items: response.tracks };
+            }
+            localStorage.setItem('busqueda', JSON.stringify(res.items));
+            $(location).attr('href', 'canciones.html');
+        })
+        .fail(function (error) {
+            alert('No se ha podido cargar sus playlist: ' + error.responseText);
+        });
+}
+
+function agregarCancion(playlist, uri) {
+    var modal = $('#myModal');
+
+
+    $.post({
+        url: `https://api.spotify.com/v1/playlists/${playlist}/tracks?uris=${uri}`,
+        headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
+    })
+        .done(function (response) {
+            modal.hide(1000);
+
+            alert('cancion agregada');
         })
         .fail(function (error) {
             alert('No se ha podido cargar sus playlist: ' + error.responseText);

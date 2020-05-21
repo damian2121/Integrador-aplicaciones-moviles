@@ -20,6 +20,7 @@ function filter(token, name, type, country, limit) {
             headers: { Authorization: 'Bearer ' + token },
         })
             .done(function (response) {
+                console.log(response);
                 if (type === 'track') {
                     $.each(response.tracks.items, function (i, item) {
                         var urlImage = item.album.images.length === 0 ? null : item.album.images[0].url;
@@ -38,7 +39,17 @@ function filter(token, name, type, country, limit) {
                         type === 'artist' ? response.artists : type === 'album' ? response.albums : response.playlists;
                     $.each(list.items, function (i, item) {
                         var urlImage = item.images.length === 0 ? null : item.images[0].url;
-                        agregarItem(item.name, urlImage, 'Ingresar', item.external_urls.spotify, item.id, 'add');
+
+                        agregarItem(
+                            item.name,
+                            urlImage,
+                            'Ingresar',
+                            item.external_urls.spotify,
+                            item.id,
+                            'search',
+                            null,
+                            item
+                        );
                     });
                 }
             })
