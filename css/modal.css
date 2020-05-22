@@ -1,5 +1,8 @@
 #myBtn {
     display: contents;
+    left: 50%;
+    top: 20%;
+    transform: translate(-50%, -50%);
 }
 
 .modal {

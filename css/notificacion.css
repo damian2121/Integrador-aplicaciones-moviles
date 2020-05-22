@@ -1,5 +1,5 @@
 .notificacion-contenedor {
-    position: absolute;
+    position: fixed;
     border-radius: 10px;
     top: 5%;
     width: 300px;
@@ -8,8 +8,11 @@
     flex-direction: column;
     align-items: center;
     justify-content: space-between;
-	font-family: 'Montserrat', sans-serif;
+    font-family: 'Montserrat', sans-serif;
     z-index: 9000;
+    left: 50%;
+    top: 20%;
+    transform: translate(-50%, -50%);
 }
 
 #notificaciones-header {
@@ -77,7 +80,4 @@
 }
 
 @media (min-width: 768px) {
-    .notificacion-contenedor {
-        left: 25%;
-    }
 }

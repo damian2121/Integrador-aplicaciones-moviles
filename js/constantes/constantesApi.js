@@ -69,10 +69,17 @@ function buildButton(id, name, uri, type, urlImage, externalUrl, item) {
                 $(`<i id=${id} />`)
                     .addClass('fas fa-trash-alt fa-2x')
                     .click((el) => {
-                        const val = confirm('Vas a Borrar una Playlist ?');
-                        if (val) {
-                            deletePlaylist(el.target.id);
-                        }
+                        Notificacion.notificar(
+                            'info',
+                            'Cuidado!',
+                            'Esta por borra una Playlist',
+                            true,
+                            'Aceptar',
+                            false,
+                            () => {
+                                deletePlaylist(el.target.id);
+                            }
+                        );
                     })
             )
             .css({ display: 'flex', 'margin-top': '1rem', 'justify-content': 'space-evenly' });

@@ -50,10 +50,17 @@ function meTrackPlaylist() {
                                     $('<i/>')
                                         .addClass('fas fa-trash-alt fa')
                                         .click(function () {
-                                            const val = confirm('Vas a Borrar una cancion ?');
-                                            if (val) {
-                                                borrarCancion(item.track.uri, this);
-                                            }
+                                            Notificacion.notificar(
+                                                'info',
+                                                'Cuidado!',
+                                                'Esta por borra una cancion',
+                                                true,
+                                                'Aceptar',
+                                                false,
+                                                () => {
+                                                    borrarCancion(item.track.uri, this);
+                                                }
+                                            );
                                         })
                                 )
                         )

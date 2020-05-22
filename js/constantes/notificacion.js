@@ -1,10 +1,12 @@
-// $(function () {
-//     $('#llama').click(() => {
-//         Notificacion.onlyEliminar();
-//     });
-// });
+$(function () {
+    $('#llama').click(() => {
+        Notificacion.notificar(false, false, false, true, false, false, () => {
+            alert('sdsdsd');
+        });
+    });
+});
 class Notificacion {
-    static notificar(tipo, titulo, mensaje, botones = true, bt1, bt2) {
+    static notificar(tipo, titulo, mensaje, botones = true, bt1, bt2, fn) {
         $('body').append(
             $('<div/>')
                 .append(
@@ -14,7 +16,7 @@ class Notificacion {
                     $('<section/>')
                         .append($('<div/>').append($('<span/>').text(mensaje || '! Desea Realizar la accion')))
                         .attr({ id: 'notificacion-seccion' }),
-                    botones ? button(bt1, bt2) : null
+                    botones ? button(bt1, bt2, fn) : null
                 )
                 .addClass(tipo || 'success')
                 .addClass('notificacion-contenedor')
@@ -46,7 +48,7 @@ class Notificacion {
     }
 }
 
-function button(bt1, bt2) {
+function button(bt1, bt2, fn) {
     return $('<footer/>')
         .append(
             $('<button/>')
@@ -54,7 +56,7 @@ function button(bt1, bt2) {
                 .text(bt1 || 'Continuar')
                 .click(() => {
                     eliminar();
-                    return true;
+                    fn();
                 }),
             $('<button/>')
                 .attr({ type: 'button', id: 'accion-cancelar' })
