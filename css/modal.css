@@ -95,17 +95,18 @@
 }
 .modal-content h3 {
     text-align: center;
+    margin-top: 3rem;
 }
 @media (min-width: 768px) {
-    /* #modal {
-        height: auto;
-    } */
+    #modal {
+        width: 100%;
+    }
     .modal {
         position: initial;
 
         border-radius: 10px;
         width: 368px;
-        height: 451px;
+        height: 500px;
         margin: 20px auto;
     }
     .modal-content {
@@ -113,8 +114,12 @@
         margin-left: 0px;
         width: 100%;
         border: none;
+        align-items: center;
     }
-
+    /* 
+    .modal-content h3 {
+        margin-top: 3rem;
+    } */
     .form--campo {
         padding: 0;
         margin: 4rem;
@@ -151,7 +156,7 @@
 
     .close {
         position: absolute;
-        right: 12%;
+        right: 7%;
         color: #aaaaaa;
         font-size: 28px;
         font-weight: bold;

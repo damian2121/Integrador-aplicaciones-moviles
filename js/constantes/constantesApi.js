@@ -93,7 +93,6 @@ function buildModalCompartir(name, datosEnviar) {
     var modal = $('#myModal');
     var span = $('.close');
     span.click(() => modal.hide(1000));
-    $('.modal').css('position', 'fixed').css('left', '35%');
 
     $('#modal').remove();
     $('#contentmodal > h3').text(`Compartir : ${name}`),
@@ -145,7 +144,6 @@ function buildModalAdd(name, uri) {
     var span = $('.close');
     span.click(() => modal.hide(1000));
 
-    $('.modal').css('position', 'fixed').css('left', '35%');
     $('#modal').remove();
     $('.modal-content').children('h3').text(`Agregar  ${name} a una Playlist`).attr('id', uri);
     $('#contentmodal').append(
@@ -251,8 +249,8 @@ function searchGeneral(item) {
             break;
         case 'album':
             // item.images[0]
-			localStorage.setItem('album-image', item.images[0].url);
-			localStorage.setItem("album-name",item.name)
+            localStorage.setItem('album-image', item.images[0].url);
+            localStorage.setItem('album-name', item.name);
             tracksGeneral(`https://api.spotify.com/v1/albums/${item.id}/tracks`, item.type);
             break;
         default:
