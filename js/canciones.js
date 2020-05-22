@@ -8,6 +8,13 @@ $(function () {
     }
 });
 
+window.onstorage = (e) => {
+    console.log(e);
+    // When local storage changes, dump the list to
+    // the console.
+    console.log(JSON.parse(localStorage.getItem('token')));
+};
+
 $(window).bind('storage', function () {
     if (localStorage.getItem('route') === 'playlist') {
         meTrackPlaylist();
@@ -22,8 +29,6 @@ function meTrackPlaylist() {
         headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
     })
         .done(function (response) {
-            console.log(response);
-
             $.each(response.items, function (i, item) {
                 let data = {
                     image: item.track.album.images[0].url,
@@ -108,7 +113,6 @@ function tracksAdd() {
                                 .click(function () {
                                     const data = JSON.parse(localStorage.getItem('dataCancion'));
                                     const index = parseInt(this.id);
-                                    console.log(data);
                                     $('#tituloCancion').text(data[index].name);
                                     $('#imagenCancion').attr('src', data[index].image);
                                     $('#reproductor').attr('src', auxItem.preview_url)[0].play();

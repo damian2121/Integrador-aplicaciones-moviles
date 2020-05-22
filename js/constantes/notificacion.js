@@ -35,8 +35,8 @@ class Notificacion {
                         .attr({ id: 'notificaciones-header' }),
                     $('<section/>')
                         .append($('<div/>').append($('<span/>').text(mensaje || '! Desea Realizar la accion')))
-                        .attr({ id: 'notificacion-seccion' })
-                        .css('margin-bottom', '3rem'),
+                        .attr({ id: 'notificacion-seccion' }),
+                    // .css('margin-bottom', '3rem'),
                     botones ? buttonOnly() : null
                 )
                 .addClass(tipo || 'success')

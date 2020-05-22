@@ -15,9 +15,14 @@ if (searchParams.has('code')) {
             redirect_uri: REDIRECT_URI,
         },
     };
-    $.ajax(settings).done(function (response) {
-        localStorage.setItem('token', response.access_token);
-    });
+    $.ajax(settings)
+        .done(function (response) {
+            localStorage.setItem('token', response.access_token);
+            // mePlayList(response.access_token);
+        })
+        .fail(function (error) {
+            Notificacion.onlyEliminar('error', 'Error', 'No se ha podido cargar sus playlist: ' + error.responseText);
+        });
 }
 
 if (localStorage.getItem('token')) {
@@ -33,9 +38,13 @@ if (localStorage.getItem('token')) {
         },
     };
 
-    $.ajax(settings).done(function ({ country, display_name, id }) {
-        localStorage.setItem('user', JSON.stringify({ pais: country, id, name: display_name }));
-    });
+    $.ajax(settings)
+        .done(function ({ country, display_name, id }) {
+            localStorage.setItem('user', JSON.stringify({ pais: country, id, name: display_name }));
+        })
+        .fail(function (error) {
+            Notificacion.onlyEliminar('error', 'Error', 'No se ha podido cargar sus playlist: ' + error.responseText);
+        });
 }
 
 function crearPlaylist(data) {
@@ -54,8 +63,11 @@ function crearPlaylist(data) {
         data: JSON.stringify(data),
     };
 
-    $.ajax(settings).done(function (response) {
-        console.log(response);
-        Notificacion.onlyEliminar('success', 'Exito', 'Se Creo la Playlist');
-    });
+    $.ajax(settings)
+        .done(function (response) {
+            Notificacion.onlyEliminar('success', 'Exito', 'Se Creo la Playlist');
+        })
+        .fail(function (error) {
+            Notificacion.onlyEliminar('error', 'Error', 'No se ha podido cargar sus playlist: ' + error.responseText);
+        });
 }

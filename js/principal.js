@@ -1,13 +1,18 @@
 $(function () {
     var token = localStorage.getItem('token');
-    mePlayList(token);
+    if (token) {
+        mePlayList(token);
+    }
 });
+
+window.onstorage = (e) => {
+    console.log(e);
+    mePlayList(localStorage.getItem('token'));
+};
 
 function mePerfil(token) {
     $.get({ url: 'https://api.spotify.com/v1/me', headers: { Authorization: 'Bearer ' + token } })
-        .done(function (response) {
-            console.log('cargar los datos personales');
-        })
+        .done(function (response) {})
         .fail(function (error) {
             alert('No se ha podido cargar los datos personales: ' + error.responseText);
         });

@@ -12,6 +12,12 @@ $(function () {
     });
 });
 
+window.onstorage = (e) => {
+    console.log(e);
+    // When local storage changes, dump the list to
+    // the console.
+    console.log(JSON.parse(localStorage.getItem('token')));
+};
 function searchFilter(token, isAdd, limit) {
     var name = $('[name=name-filter]').val(),
         type = $('[name=type-filter]').val(),
