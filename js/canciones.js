@@ -16,30 +16,52 @@ $(window).bind('storage', function () {
     }
 });
 function meTrackPlaylist() {
+    let imagen = [];
     $.get({
         url: 'https://api.spotify.com/v1/playlists/' + localStorage.getItem('myPlaylistId') + '/tracks',
         headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
     })
         .done(function (response) {
+            console.log(response);
+
             $.each(response.items, function (i, item) {
+                let data = {
+                    image: item.track.album.images[0].url,
+                    name: item.track.album.name,
+                };
+                imagen.push(data);
                 $('.prl-articles').append(
                     $('<li/>')
                         .append(
-                            $('<button/>')
-                                .text(item.track.name)
-                                .attr({ target: '_blank', href: item.track.external_urls })
-                                .click(() => $('#reproductor').attr('src', item.track.preview_url)[0].play()),
-                            $('<i/>')
-                                .addClass('fas fa-trash-alt')
-                                .click(function () {
-                                    borrarCancion(item.track.uri);
-                                    $(this).closest('li').hide(500);
-                                })
+                            $('<p/>').text(item.track.name).attr({ target: '_blank', href: item.track.external_urls }),
+                            $('<div/>')
+                                .addClass('contenedor-icono')
+                                .append(
+                                    $('<i/>')
+                                        .addClass('fas fa-play-circle fa')
+                                        .click(function () {
+                                            const data = JSON.parse(localStorage.getItem('dataCancion'));
+                                            const index = parseInt(this.id);
+                                            $('#tituloCancion').text(data[index].name);
+                                            $('#imagenCancion').attr('src', data[index].image);
+                                            $('#reproductor').attr('src', item.track.preview_url)[0].play();
+                                        })
+                                        .attr('id', i),
+                                    $('<i/>')
+                                        .addClass('fas fa-trash-alt fa')
+                                        .click(function () {
+                                            const val = confirm('Vas a Borrar una cancion ?');
+                                            if (val) {
+                                                borrarCancion(item.track.uri, this);
+                                            }
+                                        })
+                                )
                         )
 
-                        .attr({ title: 'Pista ' + item.track.name + ' en Spotify' })
+                        .attr({ title: 'Pista ' + item.track.name + ' en Spotify', id: i })
                 );
             });
+            localStorage.setItem('dataCancion', JSON.stringify(imagen));
         })
         .fail(function (error) {
             alert('No se ha podido cargar sus playlist: ' + error.responseText);
@@ -49,29 +71,59 @@ function meTrackPlaylist() {
 function tracksAdd() {
     const items = JSON.parse(localStorage.getItem('busqueda'));
     var modal = $('#myModal');
+    let imagen = [];
+
+    console.log(items);
 
     $.each(items, function (i, item) {
         const auxItem = item.name ? item : item.track;
+        let data = {};
+        if (auxItem.album) {
+            data = {
+                image: auxItem.album.images[0].url,
+                name: auxItem.album.name,
+            };
+        } else {
+            data = {
+                image: localStorage.getItem('album-image'),
+                name: localStorage.getItem('album-name'),
+            };
+        }
+
+        imagen.push(data);
         $('.prl-articles').append(
             $('<li/>')
                 .append(
-                    $('<button/>')
-                        .text(auxItem.name)
-                        .attr({ target: '_blank', href: auxItem.external_urls })
-                        .click(() => $('#reproductor').attr('src', auxItem.preview_url)[0].play()),
-                    $('<i/>')
-                        .addClass('fas fa-plus-square')
-                        .click(function () {
-                            buildModalAdd(auxItem.name, auxItem.uri);
-                            modal.show('slow');
-                        })
+                    $('<p/>').text(auxItem.name).attr({ target: '_blank', href: auxItem.external_urls }),
+                    $('<div/>')
+                        .addClass('contenedor-icono')
+                        .append(
+                            $('<i/>')
+                                .addClass('fas fa-play-circle fa')
+                                .click(function () {
+                                    const data = JSON.parse(localStorage.getItem('dataCancion'));
+                                    const index = parseInt(this.id);
+                                    console.log(data);
+                                    $('#tituloCancion').text(data[index].name);
+                                    $('#imagenCancion').attr('src', data[index].image);
+                                    $('#reproductor').attr('src', auxItem.preview_url)[0].play();
+                                })
+                                .attr('id', i),
+                            $('<i/>')
+                                .addClass('fas fa-plus-square fa')
+                                .click(function () {
+                                    buildModalAdd(auxItem.name, auxItem.uri);
+                                    modal.show('slow');
+                                })
+                        )
                 )
                 .attr({ title: 'Pista ' + auxItem.name + ' en Spotify' })
         );
     });
+    localStorage.setItem('dataCancion', JSON.stringify(imagen));
 }
 
-function borrarCancion(uri_Spotify) {
+function borrarCancion(uri_Spotify, obj) {
     var settings = {
         url: `https://api.spotify.com/v1/playlists/${localStorage.getItem('myPlaylistId')}/tracks`,
         method: 'DELETE',
@@ -85,6 +137,7 @@ function borrarCancion(uri_Spotify) {
     };
 
     $.ajax(settings).done(function (response) {
-        console.log(response);
+        alert('La cancion a sido eliminada');
+        $(obj).closest('li').hide(500);
     });
 }

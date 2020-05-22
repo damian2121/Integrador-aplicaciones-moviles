@@ -13,9 +13,10 @@ button {
 button:hover,
 a:hover {
     cursor: pointer;
-} 
+}
 
-input[type="text"], select {
+input[type='text'],
+select {
     height: 30px;
     margin: 2px 2px 2px 0px;
     border: 1px solid;
@@ -30,12 +31,16 @@ select {
     height: 34px;
     padding-right: 19px;
 }
-input[type="text"], select, textarea {
-    border-radius: 2px;   
+input[type='text'],
+select,
+textarea {
+    border-radius: 2px;
 }
 
 @media (max-width: 768px) {
-    input[type="text"], select, textarea {
+    input[type='text'],
+    select,
+    textarea {
         width: 100%;
         margin-top: 8px;
         padding-left: 5px;
@@ -43,7 +48,9 @@ input[type="text"], select, textarea {
 }
 
 @media (min-width: 768px) {
-    input[type="text"], select, textarea {
+    input[type='text'],
+    select,
+    textarea {
         width: 251px;
         padding-left: 5px;
         padding-right: 19px;
@@ -138,7 +145,7 @@ article a:hover {
 }
 
 .header-content {
-    text-align:center;
+    text-align: center;
 }
 .header-content > .header-title {
     width: 100%;
@@ -152,14 +159,15 @@ article a:hover {
 }
 
 @media (min-width: 768px) {
-    .header-content > .header-title  {
+    .header-content > .header-title {
         max-width: 80%;
         text-align: center;
         display: inline-block;
     }
 }
 
-.box, .box-default {
+.box,
+.box-default {
     border: 0px solid;
     max-width: 80%;
     display: flex;
@@ -170,19 +178,20 @@ article a:hover {
 .box {
     background-color: white;
 }
-.box-default{
+.box-default {
     background-color: none;
 }
 
-
 @media (max-width: 768px) {
-    .box, .box-default {
+    .box,
+    .box-default {
         max-width: 100%;
     }
 }
 
-@media (min-width: 768px) { 
-    .box, .box-default {
+@media (min-width: 768px) {
+    .box,
+    .box-default {
         max-width: 80%;
         width: 100%;
         text-align: left;
@@ -197,18 +206,20 @@ article a:hover {
     }
     .box-campo {
         flex-grow: 2;
+        padding: 0px;
+        margin: 0rem 2rem;
     }
 }
 
 .box-footer {
     border-top: 1px solid #f4f4f4;
 }
-.button-green, .button-red {
+.button-green,
+.button-red {
     color: white;
     background-color: #00a65a;
     padding: 8px 16px 8px 16px;
     margin: 8px 9px 8px 8px;
-    float: right;
     border-radius: 3px;
 }
 .button-green {

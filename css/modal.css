@@ -44,6 +44,9 @@
 
 #modal {
     height: 100%;
+    display: flex;
+    justify-content: space-around;
+    flex-direction: column;
 }
 .form--campo {
     display: flex;
@@ -64,9 +67,8 @@
 }
 
 .form--button {
-    position: relative;
     flex-direction: column;
-    bottom: 0px;
+    display: flex;
 }
 .form--button-form {
     flex-grow: 1;
@@ -91,22 +93,26 @@
     margin-right: 2rem;
     font-size: 20px;
 }
-
+.modal-content h3 {
+    text-align: center;
+}
 @media (min-width: 768px) {
-    #modal {
+    /* #modal {
         height: auto;
-    }
+    } */
     .modal {
+        position: initial;
+
+        border-radius: 10px;
         width: 368px;
-        left: 10%;
         height: 451px;
-        top: 8%;
+        margin: 20px auto;
     }
-    .modal-content { 
+    .modal-content {
         display: flex;
-        left: 8%;
+        margin-left: 0px;
+        width: 100%;
         border: none;
-        border-radius: 50px;
     }
 
     .form--campo {
@@ -135,11 +141,8 @@
     }
     .form--button {
         display: flex;
-        position: initial;
         justify-content: center;
-        left: initial;
-        width: auto;
-        margin: 0 3rem;
+        margin: 0px 2rem;
     }
 
     .form--button button {

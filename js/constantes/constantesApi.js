@@ -69,7 +69,10 @@ function buildButton(id, name, uri, type, urlImage, externalUrl, item) {
                 $(`<i id=${id} />`)
                     .addClass('fas fa-trash-alt fa-2x')
                     .click((el) => {
-                        deletePlaylist(el.target.id);
+                        const val = confirm('Vas a Borrar una Playlist ?');
+                        if (val) {
+                            deletePlaylist(el.target.id);
+                        }
                     })
             )
             .css({ display: 'flex', 'margin-top': '1rem', 'justify-content': 'space-evenly' });
@@ -90,23 +93,30 @@ function buildModalCompartir(name, datosEnviar) {
     var modal = $('#myModal');
     var span = $('.close');
     span.click(() => modal.hide(1000));
+    $('.modal').css('position', 'fixed').css('left', '35%');
 
     $('#modal').remove();
     $('#contentmodal > h3').text(`Compartir : ${name}`),
         $('#contentmodal').append(
             $('<form id="modal"/>').append(
-                $('<div/>').addClass('box-campo').append(
-                    $('<label/>').text('Correo origen:').attr('for', 'origen'),
-                    $('<input/>').attr({ name: 'origen', type: 'text', id: 'origen' })
-                ),
-                $('<div/>').addClass('box-campo').append(
-                    $('<label/>').text('Correo destino:').attr('for', 'destino'),
-                    $('<input/>').attr({ name: 'destino', type: 'text', id: 'destino' })
-                ),
-                $('<div/>').addClass('box-campo').append(
-                    $('<label/>').text('Mensaje:').attr('for', 'mensaje'),
-                    $('<textarea/>').attr({ name: 'mensaje', id: 'mensaje', rows : "4" })
-                ),
+                $('<div/>')
+                    .addClass('box-campo')
+                    .append(
+                        $('<label/>').text('Correo origen:').attr('for', 'origen'),
+                        $('<input/>').attr({ name: 'origen', type: 'text', id: 'origen' })
+                    ),
+                $('<div/>')
+                    .addClass('box-campo')
+                    .append(
+                        $('<label/>').text('Correo destino:').attr('for', 'destino'),
+                        $('<input/>').attr({ name: 'destino', type: 'text', id: 'destino' })
+                    ),
+                $('<div/>')
+                    .addClass('box-campo')
+                    .append(
+                        $('<label/>').text('Mensaje:').attr('for', 'mensaje'),
+                        $('<textarea/>').attr({ name: 'mensaje', id: 'mensaje', rows: '4' })
+                    ),
                 $('<div/>')
                     .append(
                         $('<button type="button" />')
@@ -135,6 +145,7 @@ function buildModalAdd(name, uri) {
     var span = $('.close');
     span.click(() => modal.hide(1000));
 
+    $('.modal').css('position', 'fixed').css('left', '35%');
     $('#modal').remove();
     $('.modal-content').children('h3').text(`Agregar  ${name} a una Playlist`).attr('id', uri);
     $('#contentmodal').append(
@@ -145,7 +156,8 @@ function buildModalAdd(name, uri) {
                     $('<select/>').attr({ name: 'playlist', id: 'playlist' })
                 )
                 .addClass('box-campo'),
-            $('<div/>').addClass('box-campo')
+            $('<div/>')
+                .addClass('box-campo')
                 .append(
                     $('<button type="button" />')
                         .attr('id', 'enviar')
@@ -239,7 +251,8 @@ function searchGeneral(item) {
             break;
         case 'album':
             // item.images[0]
-            localStorage.setItem('album-image', item.images[0]);
+			localStorage.setItem('album-image', item.images[0].url);
+			localStorage.setItem("album-name",item.name)
             tracksGeneral(`https://api.spotify.com/v1/albums/${item.id}/tracks`, item.type);
             break;
         default:

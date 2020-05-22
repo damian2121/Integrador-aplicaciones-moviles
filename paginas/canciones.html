@@ -6,6 +6,7 @@
         <title>Document</title>
         <link rel="stylesheet" href="../css/all.min.css" />
         <link rel="stylesheet" href="../css/modal.css" />
+        <link rel="stylesheet" href="../css/canciones.css" />
 
         <script
             src="https://code.jquery.com/jquery-3.5.0.min.js"
@@ -14,12 +15,18 @@
         ></script>
     </head>
     <body>
-        <div class="prl-articles"></div>
-        <audio controls id="reproductor">
-            <source
-                src="https://p.scdn.co/mp3-preview/070b147d7710598fb96360f94b1adb0709fce235?cid=c444f9c5b8ed428380e8c1453a2878cb"
-            />
-        </audio>
+        <div class="contenedor-canciones">
+            <div class="prl-articles"></div>
+            <div class="contendor-audio">
+                <header id="tituloCancion" class="contendor-audio--titulo"></header>
+                <img id="imagenCancion" src="" alt="" class="contendor-audio--imagen" />
+                <audio controls id="reproductor" class="reproductor">
+                    <source
+                        src="https://p.scdn.co/mp3-preview/070b147d7710598fb96360f94b1adb0709fce235?cid=c444f9c5b8ed428380e8c1453a2878cb"
+                    />
+                </audio>
+            </div>
+        </div>
 
         <div id="myModal" class="modal">
             <!-- Modal content -->
