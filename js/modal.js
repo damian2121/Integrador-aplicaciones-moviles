@@ -4,11 +4,23 @@ $(function () {
     var btn = $('#myBtn');
 
     var span = $('#idCancelar, .close');
-
+ 
     span.click(() => modal.hide(1000));
 
+    function valModal(){
+        
+        
+        if($('#name').val()==''){
+            Notificacion.onlyEliminar('info', 'Revise los campos', 'Debe completar el campo Nombre');
+            return false 
+        }
+        else{
+        return true; 
+        }
+    }
+
     btn.click(() => modal.show('slow'));
-    $('#enviar').click(function () {
+    $('#enviar').click(function () {        
         let modal = $('#modal');
         let data = {};
 
@@ -19,6 +31,7 @@ $(function () {
                 data[`${this.name}`] = this.value;
             }
         });
+           valModal();
         crearPlaylist(data);
     });
 });
