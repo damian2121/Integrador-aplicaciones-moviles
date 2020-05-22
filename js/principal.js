@@ -19,11 +19,19 @@ function mePlayList(token) {
         .done(function (response) {
             $.each(response.items, function (i, item) {
                 var urlImage = item.images.length === 0 ? null : item.images[0].url;
-                agregarItem(item.name, urlImage, 'Ingresar a la Playlist', item.external_urls.spotify, item.id);
+                agregarItem(
+                    item.name,
+                    urlImage,
+                    'Ingresar a la Playlist',
+                    item.external_urls.spotify,
+                    item.id,
+                    'playlist'
+                );
             });
+            Notificacion.onlyEliminar('success', 'Exito', 'Se cargaron los datos Correctamente');
         })
         .fail(function (error) {
-            alert('No se ha podido cargar sus playlist: ' + error.responseText);
+            Notificacion.onlyEliminar('error', 'Error', 'No se ha podido cargar sus playlist: ' + error.responseText);
         });
 }
 
@@ -33,6 +41,8 @@ function tracksForPlayList(token, idPlayList) {
         headers: { Authorization: 'Bearer ' + token },
     })
         .done(function (response) {
+            Notificacion.onlyEliminar('success', 'Exito', 'Se cargaron los datos Correctamente');
+            localStorage.setItem('canciones', JSON.stringify(response));
             $.each(response.items, function (i, item) {
                 var nameArtist = ' - ',
                     urlNameArtist = $('<li/>');
@@ -57,7 +67,7 @@ function tracksForPlayList(token, idPlayList) {
             });
         })
         .fail(function (error) {
-            alert('No se ha podido cargar sus playlist: ' + error.responseText);
+            Notificacion.onlyEliminar('error', 'Error', 'No se ha podido cargar los datos ' + error.responseText);
         });
 }
 
@@ -73,7 +83,13 @@ function deletePlaylist(playList) {
         },
     };
 
-    $.ajax(settings).done(function () {
-        $(`#${playList}`).closest('article').hide(500);
-    });
+    $.ajax(settings)
+        .done(function () {
+            Notificacion.onlyEliminar('success', 'Exito', 'Se borro la PlayList');
+
+            $(`#${playList}`).closest('article').hide(500);
+        })
+        .fail(function (error) {
+            Notificacion.onlyEliminar('error', 'Error', 'No se ha podido Eliminar');
+        });
 }

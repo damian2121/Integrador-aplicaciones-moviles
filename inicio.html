@@ -31,6 +31,7 @@
         </header>
         <div class="prl-content">
             <nav class="prl-menu">
+                <li><a href="./paginas/principal.html" target="pagina">Mis playList</a></li>
                 <li><a href="./paginas/busqueda.html" target="pagina">Busqueda</a></li>
                 <li><button id="myBtn">Nueva PlayList</button></li>
             </nav>
@@ -41,26 +42,24 @@
         <div id="myModal" class="modal">
             <!-- Modal content -->
             <div class="modal-content">
+                <h3>Nueva Playlist</h3>
                 <span class="close">&times;</span>
                 <form action="" name="form" id="modal" method="POST">
-                    <div class="form--campo">
-                        <label for="name">Nombre PlayList</label>
+                    <div class="box-campo">
+                        <label for="name">Nombre: </label>
                         <input type="text" id="name" name="name" />
                     </div>
-
-                    <div class="form--campo">
-                        <label for="description">Descripcion</label>
+                    <div class="box-campo">
+                        <label for="description">Descripcion: </label>
                         <input type="text" id="description" name="description" />
                     </div>
-
-                    <div class="form--campo-check">
+                    <div class="box-campo">
                         <label for="public">Publica</label>
                         <input type="checkbox" id="public" name="public" />
                     </div>
-
                     <div class="form--button">
-                        <button type="button" id="enviar" class="form--button-form">Crear</button>
-                        <button type="button" id="idCancelar" class="form--button-form">Cancelar</button>
+                        <button type="button" id="enviar" class="button-green">Crear</button>
+                        <button type="button" id="idCancelar" class="button-red">Cancelar</button>
                     </div>
                 </form>
             </div>

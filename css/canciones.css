@@ -1,0 +1,94 @@
+.prl-articles {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+p {
+    display: inline;
+    margin-right: 2rem;
+    white-space: nowrap;
+    text-overflow: ellipsis;
+    overflow: hidden;
+    width: 50%;
+}
+li {
+    display: flex;
+    justify-content: space-between;
+    counter-increment: my-awesome-counter;
+
+    list-style: none;
+    margin: 0.25rem;
+    width: 100%;
+}
+i {
+    align-self: center;
+}
+li::before {
+    content: counter(my-awesome-counter);
+    background: #662974;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    display: inline-block;
+    line-height: 2rem;
+    color: white;
+    text-align: center;
+    align-self: center;
+}
+.contenedor-canciones {
+    display: flex;
+    flex-direction: column;
+    width: 100%;
+}
+
+.reproductor {
+    align-self: center;
+    flex-grow: 1;
+    position: fixed;
+    width: 100%;
+    background: #ecf0f5;
+    bottom: 0;
+}
+.fa {
+    font-size: 1.5em;
+    margin: 0.5rem;
+}
+.contenedor-icono {
+    display: flex;
+    justify-content: end;
+}
+
+.contendor-audio--titulo,
+.contendor-audio--imagen {
+    display: none;
+}
+
+@media (min-width: 768px) {
+    .reproductor {
+        width: 50%;
+        right: 50%;
+        bottom: 0;
+    }
+    .prl-articles {
+        width: 50%;
+        flex-grow: 0;
+    }
+    .contenedor-canciones {
+        flex-direction: row-reverse;
+    }
+    .contendor-audio {
+        width: 50%;
+        overflow: hidden;
+    }
+
+    .contendor-audio--titulo {
+        display: block;
+        font-size: 2rem;
+        margin-bottom: 1rem;
+    }
+    .contendor-audio--imagen {
+        display: block;
+        width: 50%;
+        min-width: 400px;
+    }
+}
