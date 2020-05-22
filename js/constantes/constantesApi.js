@@ -83,7 +83,8 @@ function buildButton(id, name, uri, type, urlImage, externalUrl, item) {
 
 function validarBusqueda() {
     if ($('[name=name-filter]').val().length == 0) {
-        alert('Debe completar el campo Nombre');
+        Notificacion.onlyEliminar('info', 'Revise los campos', 'Debe completar el campo Nombre');
+
         return false;
     }
     return true;
@@ -208,7 +209,7 @@ function enviarEmail(datosEnviar) {
         window.open(href);
         event.preventDefault();
     } else {
-        alert(' correo no valido');
+        Notificacion.onlyEliminar('info', 'Verificar', 'El correro es Incorrecto');
     }
 }
 
@@ -235,7 +236,7 @@ function mePlaylist() {
             });
         })
         .fail(function (error) {
-            alert('No se ha podido cargar sus playlist: ' + error.responseText);
+            Notificacion.onlyEliminar('error', 'Error', 'No se ha podido cargar sus playlist: ' + error.responseText);
         });
 }
 
@@ -274,7 +275,7 @@ function tracksGeneral(url, type) {
             $(location).attr('href', 'canciones.html');
         })
         .fail(function (error) {
-            alert('No se ha podido cargar sus playlist: ' + error.responseText);
+            Notificacion.onlyEliminar('error', 'Error', 'Ocurrio un error' + error.responseText);
         });
 }
 
@@ -287,10 +288,9 @@ function agregarCancion(playlist, uri) {
     })
         .done(function (response) {
             modal.hide(1000);
-
-            alert('cancion agregada');
+            Notificacion.onlyEliminar('success', 'Exito', 'Cancion agregada');
         })
         .fail(function (error) {
-            alert('No se ha podido cargar sus playlist: ' + error.responseText);
+            Notificacion.onlyEliminar('error', 'Error', 'Ocurrio un error' + error.responseText);
         });
 }

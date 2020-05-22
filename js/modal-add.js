@@ -33,6 +33,6 @@ function agregarCancion(playlist, uri) {
     };
 
     $.ajax(settings).done(function (response) {
-        alert('cancion agregada');
+        Notificacion.onlyEliminar('success', 'Exito', 'Cancion agregada');
     });
 }

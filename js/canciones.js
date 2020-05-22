@@ -64,7 +64,7 @@ function meTrackPlaylist() {
             localStorage.setItem('dataCancion', JSON.stringify(imagen));
         })
         .fail(function (error) {
-            alert('No se ha podido cargar sus playlist: ' + error.responseText);
+            Notificacion.onlyEliminar('error', 'Error', 'Ocurrio un error' + error.responseText);
         });
 }
 
@@ -72,8 +72,6 @@ function tracksAdd() {
     const items = JSON.parse(localStorage.getItem('busqueda'));
     var modal = $('#myModal');
     let imagen = [];
-
-    console.log(items);
 
     $.each(items, function (i, item) {
         const auxItem = item.name ? item : item.track;
@@ -137,7 +135,7 @@ function borrarCancion(uri_Spotify, obj) {
     };
 
     $.ajax(settings).done(function (response) {
-        alert('La cancion a sido eliminada');
+        Notificacion.onlyEliminar('success', 'Exito', 'La cancion a sido eliminada');
         $(obj).closest('li').hide(500);
     });
 }

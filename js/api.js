@@ -56,6 +56,6 @@ function crearPlaylist(data) {
 
     $.ajax(settings).done(function (response) {
         console.log(response);
-        alert(JSON.stringify(response));
+        Notificacion.onlyEliminar('success', 'Exito', 'Se Creo la Playlist');
     });
 }

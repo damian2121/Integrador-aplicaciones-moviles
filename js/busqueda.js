@@ -1,29 +1,28 @@
 $(function () {
     var token = localStorage.getItem('token');
     showHistory();
-    $('[name=history]').change(function(){
+    $('[name=history]').change(function () {
         showQuery();
     });
     $('[name=buscar-filtro]').click(function () {
-        searchFilter(token,true, true);
+        searchFilter(token, true, true);
     });
     $('.show-all').click(function () {
-        searchFilter(token,false, false);
+        searchFilter(token, false, false);
     });
 });
 
-function searchFilter(token, isAdd, limit){
+function searchFilter(token, isAdd, limit) {
     var name = $('[name=name-filter]').val(),
         type = $('[name=type-filter]').val(),
         country = $('[name=country-filter]').val();
 
-    if(limit && $('[name=limit-filter]').prop('checked')) {
-        limit = 10
+    if (limit && $('[name=limit-filter]').prop('checked')) {
+        limit = 10;
         $('.show-all').show();
-    }
-    else{
+    } else {
         $('.show-all').hide();
-        limit = 0
+        limit = 0;
     }
     filter(token, name, type, country, limit, isAdd);
 }
@@ -35,7 +34,7 @@ function filter(token, name, type, country, limit, isAdd) {
             contentPais = country === '-' ? '' : '&market=' + country;
         $.get({
             url: `https://api.spotify.com/v1/search?q=${name}&type=${type}${contentPais}${contentLimit}`,
-            headers: { Authorization: 'Bearer ' + token }, 
+            headers: { Authorization: 'Bearer ' + token },
         })
             .done(function (response) {
                 if (type === 'track') {
@@ -70,45 +69,43 @@ function filter(token, name, type, country, limit, isAdd) {
                     });
                 }
 
-                if(isAdd){
+                if (isAdd) {
                     addQuery(name, type, country, limit);
                 }
             })
             .fail(function (error) {
-                alert('No se ha podido cargar sus playlist: ' + error.responseText);
+                Notificacion.onlyEliminar('error', 'Error', 'Ocurrio un error: ' + error.responseText);
             });
     }
 }
 
-function showHistory(){
+function showHistory() {
     var listLastQuery = localStorage.getItem('query');
-    if(listLastQuery == null){
+    if (listLastQuery == null) {
         $('.box-footer-campo').hide();
-    }
-    else{
+    } else {
         listLastQuery = JSON.parse(listLastQuery);
         $('[name=history]').find('option').remove();
-        $.each(listLastQuery, function(i, query){
-            $('[name=history]').append(
-                $('<option />').val(JSON.stringify(query)).text(queryDateHours(query.date))
-            );
-        })
+        $.each(listLastQuery, function (i, query) {
+            $('[name=history]').append($('<option />').val(JSON.stringify(query)).text(queryDateHours(query.date)));
+        });
         $('.box-footer-campo').show();
     }
 }
 
-function addQuery(name, type, country, limit){
-    var lastQuery ={   
-            nameQuery: name, 
-            typeQuery: type, 
-            countryQuery: country, 
-            limitQuery: limit,
-            date: new Date()
+function addQuery(name, type, country, limit) {
+    var lastQuery = {
+        nameQuery: name,
+        typeQuery: type,
+        countryQuery: country,
+        limitQuery: limit,
+        date: new Date(),
     };
-    var listQuerys = [], listLastQuery = localStorage.getItem('query');
-    if(listLastQuery != null){
+    var listQuerys = [],
+        listLastQuery = localStorage.getItem('query');
+    if (listLastQuery != null) {
         listQuerys = JSON.parse(listLastQuery);
-        if(listQuerys.length == 5){
+        if (listQuerys.length == 5) {
             listQuerys.shift();
         }
     }
@@ -117,16 +114,28 @@ function addQuery(name, type, country, limit){
     showHistory();
 }
 
-function showQuery(){
+function showQuery() {
     var selectQuery = JSON.parse($('[name=history]').val());
     $('[name=name-filter]').val(selectQuery.nameQuery);
     $('[name=type-filter]').val(selectQuery.typeQuery);
     $('[name=country-filter]').val(selectQuery.countryQuery);
-    $('[name=limit-filter]').prop('checked',selectQuery.limitQuery);
+    $('[name=limit-filter]').prop('checked', selectQuery.limitQuery);
 }
 
-function queryDateHours(date){
+function queryDateHours(date) {
     var date = new Date(date);
-    return 'Busqueda : ' + date.getDate()+'/'+ (date.getMonth() +1)+'/'+date.getFullYear() + ' ' + date.getHours()+':'+date.getMinutes()+':'+date.getSeconds();
+    return (
+        'Busqueda : ' +
+        date.getDate() +
+        '/' +
+        (date.getMonth() + 1) +
+        '/' +
+        date.getFullYear() +
+        ' ' +
+        date.getHours() +
+        ':' +
+        date.getMinutes() +
+        ':' +
+        date.getSeconds()
+    );
 }
-
