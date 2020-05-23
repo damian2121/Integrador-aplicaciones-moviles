@@ -11,3 +11,8 @@ Aplicación responsive desarrollada para la materia Aplicaciones Moviles durante
 
 ### Docente :
 * Matias Suarez
+
+
+## Nota
+Lenvantar un server en http ( Usamos plugin de visual live server ), se debe a que s tiene que registrar la paguina a la cual redirige spotify
+
