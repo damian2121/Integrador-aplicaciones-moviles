@@ -19,6 +19,17 @@ $(function () {
                 data[`${this.name}`] = this.value;
             }
         });
-        crearPlaylist(data);
+        if (valModal()) {
+            crearPlaylist(data);
+        }
     });
 });
+
+function valModal() {
+    if ($('#name').val() == '') {
+        Notificacion.onlyEliminar('info', 'Revise los campos', 'Debe completar el campo Nombre');
+        return false;
+    } else {
+        return true;
+    }
+}

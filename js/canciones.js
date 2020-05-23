@@ -8,13 +8,6 @@ $(function () {
     }
 });
 
-window.onstorage = (e) => {
-    console.log(e);
-    // When local storage changes, dump the list to
-    // the console.
-    console.log(JSON.parse(localStorage.getItem('token')));
-};
-
 $(window).bind('storage', function () {
     if (localStorage.getItem('route') === 'playlist') {
         meTrackPlaylist();
@@ -29,12 +22,19 @@ function meTrackPlaylist() {
         headers: { Authorization: 'Bearer ' + localStorage.getItem('token') },
     })
         .done(function (response) {
+            console.log(response.items);
+            if (response.items) {
+                $('.prl-articles').append(
+                    $('<img />').attr({ src: '../img/no-music-sign-vector-icon-260nw-771058474.webp' })
+                );
+            }
             $.each(response.items, function (i, item) {
                 let data = {
                     image: item.track.album.images[0].url,
                     name: item.track.album.name,
                 };
                 imagen.push(data);
+
                 $('.prl-articles').append(
                     $('<li/>')
                         .append(

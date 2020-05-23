@@ -18,7 +18,8 @@ if (searchParams.has('code')) {
     $.ajax(settings)
         .done(function (response) {
             localStorage.setItem('token', response.access_token);
-            // mePlayList(response.access_token);
+            // mePlayList(response.access_token);url
+            window.history.replaceState({}, document.title, '/' + 'inicio.html');
         })
         .fail(function (error) {
             Notificacion.onlyEliminar('error', 'Error', 'No se ha podido cargar sus playlist: ' + error.responseText);
