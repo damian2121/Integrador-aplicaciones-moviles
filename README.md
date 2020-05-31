@@ -1,7 +1,7 @@
 # Aplicacion-moviles-web
 ## Mapa del sitio:
 ### version-movil: [Movil](https://nicolaslescano737079.invisionapp.com/public/share/FB16HIU1QN)
-### version-web :[Web] (https://nicolaslescano737079.invisionapp.com/public/share/U516HMXM9G)
+### version-web : [Web](https://nicolaslescano737079.invisionapp.com/public/share/U516HMXM9G)
 
 Aplicación responsive desarrollada para la materia Aplicaciones Moviles durante el transcurso del primer cuatrimestre del 2020.
 
